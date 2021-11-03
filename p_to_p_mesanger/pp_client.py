@@ -38,7 +38,7 @@ second_public_key = pickle.loads(netlib.receive_data(sock, string=False))
 netlib.send_encrypted_data(sock, second_public_key, pickle.dumps(my_private_key), string=False)
 
 #   getting other private key
-second_private_key = netlib.receive_encrypted_data(sock, my_private_key)
+second_private_key = pickle.loads(netlib.receive_encrypted_data(sock, my_private_key))
 
 
 listen_thread = threading.Thread(target=listen)
