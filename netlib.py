@@ -20,6 +20,11 @@ def receive_data(conn, string=True):
 
 
 def send_data(conn, data, string=True):
+    if type(data) == str:
+        string = True
+    elif type(data) == bytes:
+        string = False
+
     if string:
         data = data.encode('utf-8')
 
@@ -28,6 +33,12 @@ def send_data(conn, data, string=True):
 
 
 def send_encrypted_data(conn, public_key, message, string=True):
+    #   encrypts given message and sends it in byte representation
+    if type(message) == str:
+        string = True
+    elif type(message) == bytes:
+        string = False
+
     if string:
         message = message.encode('utf-8')
     message = rsalib.encrypt_data(message, public_key)
@@ -35,7 +46,9 @@ def send_encrypted_data(conn, public_key, message, string=True):
     send_data(conn, message, string=False)
 
 
-def receive_encrypted_data(conn, private_key):
+def receive_encrypted_data(conn, private_key) -> bytes:
+    #   return received message in byte representation
+
     message = receive_data(conn, string=False)
     message = pickle.loads(message)
     message = rsalib.decrypt_data(message, private_key)

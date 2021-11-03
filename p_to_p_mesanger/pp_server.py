@@ -1,7 +1,5 @@
 import socket
 import netlib
-import socket
-import netlib
 import threading
 from rsalib import generate_keys
 import pickle
@@ -9,7 +7,9 @@ import pickle
 sock = socket.socket()
 sock.bind(('', 9090))
 sock.listen(1)
+print("Waiting for client to connect")
 conn, address = sock.accept()
+print("Connecting...")
 
 
 def listen():
